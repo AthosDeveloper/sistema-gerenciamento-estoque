@@ -6,10 +6,9 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-@Table(name = "tb_products")
-@Getter
-@Setter
-@EqualsAndHashCode(exclude = {"description", "quantity"})
+@Table(name = "tb_produtos")
+//estou usando data porque não tem muitos atributos, se houvesse não seria tão interessante usar, porque não ficaria tão performático
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
