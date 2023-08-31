@@ -141,7 +141,21 @@ service.create(productDTO);
 }
 
 }
+void returnSuccess_whenUpdate(){
+when(repository.save(any()))
+        .thenReturn(product);
+Product responce = service.update(productDTO);
+assertNotNull(responce);
+assertEquals(Product.class, responce.getClass());
 
+    assertEquals(ID, responce.getId());
+    assertEquals(NAME, responce.getName());
+    assertEquals(DESCRIPTION, responce.getDescription());
+    assertEquals(PRICE, responce.getPrice());
+
+    assertEquals(QUANTITY, responce.getQuantity());
+
+}
 private  void startProduct(){
 product = new Product(ID, NAME, DESCRIPTION, PRICE, QUANTITY);
 productDTO = new ProductDTO(ID, NAME, DESCRIPTION, PRICE, QUANTITY);
