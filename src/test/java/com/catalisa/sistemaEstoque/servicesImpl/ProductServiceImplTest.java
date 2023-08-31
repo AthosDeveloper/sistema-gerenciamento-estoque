@@ -5,6 +5,7 @@ import com.catalisa.sistemaEstoque.model.DTOS.ProductDTO2;
 import com.catalisa.sistemaEstoque.model.Product;
 import com.catalisa.sistemaEstoque.repository.ProductRepository;
 import com.catalisa.sistemaEstoque.service.ProductServiceImpl;
+import com.catalisa.sistemaEstoque.service.exceptions.DataIntegrityViolationException;
 import com.catalisa.sistemaEstoque.service.exceptions.ObjectNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,7 +21,7 @@ import java.util.Optional;
 
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -32,7 +33,7 @@ private  static  final  String DESCRIPTION = "computador de mesa";
 private  static  final BigDecimal PRICE = new BigDecimal("4893.3512");
 private  static  final  Integer QUANTITY = 2;
 private  static  final String PRODUTO_NAO_ENCONTRADO = "produto não encontrado";
-
+private static final String NOME_DO_PRODUTO_JA_CADASTRADO_NO_SISTEMA = "nome do produto já cadastrado no sistema";
 @InjectMocks
 private ProductServiceImpl service;
 @Mock
@@ -48,6 +49,7 @@ void  setUp(){
     MockitoAnnotations.openMocks(this);
 startProduct();
 }
+
 @Test
 public  void ReturnAProductInstance_whenFindById(){
     //repository, busque um id. Se existir, me retorne o produto do tipo optional
@@ -107,6 +109,39 @@ assertEquals(ID, responce.get(INDEX).getId());
     assertEquals(PRICE, responce.get(INDEX).getPrice());
 assertEquals(QUANTITY, responce.get(INDEX).getQuantity());
 }
+@Test
+public void returnSuccess_whenCreatAProduct(){
+when(repository.save(any()))
+        .thenReturn(product);
+Product responce =service.create(productDTO);
+assertNotNull(responce);
+assertEquals(Product.class, responce.getClass());
+
+    assertEquals(ID, responce.getId());
+    assertEquals(NAME, responce.getName());
+
+    assertEquals(DESCRIPTION, responce.getDescription());
+    assertEquals(PRICE, responce.getPrice());
+    assertEquals(QUANTITY, responce.getQuantity());
+
+}
+@Test
+void  returnDataIntegrityViolationException_whenICreatAProduct(){
+when(repository.findByName(anyString()))
+        .thenReturn(optionalProduct);
+try {
+//vou desencadear essa exceção colocando um id diferente do que está o nome cadastrado:
+    optionalProduct.get().setId(2L);
+service.create(productDTO);
+} catch (Exception ex){
+    assertEquals(DataIntegrityViolationException.class, ex.getClass());
+    assertEquals(NOME_DO_PRODUTO_JA_CADASTRADO_NO_SISTEMA, ex.getMessage());
+
+
+}
+
+}
+
 private  void startProduct(){
 product = new Product(ID, NAME, DESCRIPTION, PRICE, QUANTITY);
 productDTO = new ProductDTO(ID, NAME, DESCRIPTION, PRICE, QUANTITY);
