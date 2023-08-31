@@ -2,6 +2,7 @@ package com.catalisa.sistemaEstoque.service;
 
 import com.catalisa.sistemaEstoque.model.Product;
 import com.catalisa.sistemaEstoque.repository.ProductRepository;
+import com.catalisa.sistemaEstoque.service.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,7 @@ public class Impl implements ProductService {
     @Override
     public Product findById(Long id) {
         Optional<Product> obj = repository.findById(id);
-   return  obj.orElse(null);
+return  obj.orElseThrow(() -> new ObjectNotFoundException("produto não encontrado"));
+
     }
 }
