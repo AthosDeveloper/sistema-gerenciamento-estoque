@@ -59,6 +59,7 @@ assertNotNull(responce);
 assertNotNull(responce.getBody());
 assertEquals(ResponseEntity.class, responce.getClass());
     assertEquals(ProductDTO.class, responce.getBody().getClass());
+
     assertEquals(ID, responce.getBody().getId());
     assertEquals(NAME, responce.getBody().getName());
     assertEquals(DESCRIPTION, responce.getBody().getDescription());
@@ -75,9 +76,10 @@ when(service.findAll())
         .thenReturn(List.of(product));
 when(any(), any())
         .thenReturn(dto2);
-ResponseEntity<List<ProductDTO2>> responce = service.findAll();
+ResponseEntity<List<ProductDTO2>> responce = controller.findAll();
 assertNotNull(responce);
 assertNotNull(responce.getBody());
+
 assertEquals(HttpStatus.OK, responce.getStatusCode());
     assertEquals(ResponseEntity.class, responce.getClass());
 
@@ -94,12 +96,34 @@ assertEquals(QUANTITY, responce.getBody().get(INDEX).getQuantity());
 void  returnCreated_whenCreate(){
 when(service.create(any()))
         .thenReturn(product);
-ResponseEntity<ProductDTO> responce = service.create(productDTO);
+ResponseEntity<ProductDTO> responce = controller.create(productDTO);
 assertEquals(ResponseEntity.class, responce.getClass());
 assertEquals(HttpStatus.CREATED, responce.getStatusCode());
 assertNotNull(responce.getHeaders().get("Location"));
 }
+@Test
+void returnSuccess_whenUpdateProduct(){
+when(service.update(productDTO))
+        .thenReturn(product);
+when(mapper.map(any(), any()))
+        .thenReturn(productDTO);
+ResponseEntity<ProductDTO> responce =controller.update(ID, productDTO);
+    assertNotNull(responce);
+    assertNotNull(responce.getBody());
+    assertEquals(HttpStatus.OK, responce.getStatusCode());
 
+    assertEquals(ResponseEntity.class, responce.getClass());
+    assertEquals(ProductDTO.class, responce.getBody().getClass());
+
+    assertEquals(ID, responce.getBody().getId());
+    assertEquals(NAME, responce.getBody().getName());
+    assertEquals(DESCRIPTION, responce.getBody().getDescription());
+    assertEquals(PRICE, responce.getBody().getPrice());
+
+    assertEquals(QUANTITY, responce.getBody().getQuantity());
+
+
+}
     private  void startProduct(){
 
         product = new Product(ID, NAME, DESCRIPTION, PRICE, QUANTITY);
