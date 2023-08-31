@@ -23,7 +23,7 @@ import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 public class ProductControllerTest {
@@ -122,6 +122,16 @@ ResponseEntity<ProductDTO> responce =controller.update(ID, productDTO);
 
     assertEquals(QUANTITY, responce.getBody().getQuantity());
 
+
+}
+@Test
+void returnSuccess_whenDeletAProduct(){
+doNothing().when(service).delete(anyLong());
+ResponseEntity<ProductDTO> responce = controller.delet(ID);
+    assertNotNull(responce);
+assertEquals(ResponseEntity.class, responce.getBody().getClass());
+assertEquals(HttpStatus.NO_CONTENT, responce.getStatusCode());
+verify(service, times(1)).delete(anyLong());
 
 }
     private  void startProduct(){
