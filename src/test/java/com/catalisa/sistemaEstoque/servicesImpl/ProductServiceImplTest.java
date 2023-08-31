@@ -26,6 +26,7 @@ import static org.mockito.Mockito.*;
 
 @SpringBootTest
 public class ProductServiceImplTest {
+
     private static  final Long ID = 1L;
 private static  final Integer INDEX = 0;
 private static final String NAME = "computador";
@@ -177,6 +178,7 @@ try {
 
 }
 }
+
 private  void startProduct(){
 product = new Product(ID, NAME, DESCRIPTION, PRICE, QUANTITY);
 productDTO = new ProductDTO(ID, NAME, DESCRIPTION, PRICE, QUANTITY);
