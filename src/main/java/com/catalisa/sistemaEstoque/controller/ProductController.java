@@ -1,7 +1,7 @@
 package com.catalisa.sistemaEstoque.controller;
 
 import com.catalisa.sistemaEstoque.model.Product;
-import com.catalisa.sistemaEstoque.service.Impl;
+import com.catalisa.sistemaEstoque.service.ProductServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +16,7 @@ import java.util.List;
 public class ProductController {
     private static final String ID = "{id}";
     @Autowired
-    private Impl service;
+    private ProductServiceImpl service;
     @GetMapping
     public ResponseEntity<List<Product>> findAll(){
         List<Product> products = service.findAll();

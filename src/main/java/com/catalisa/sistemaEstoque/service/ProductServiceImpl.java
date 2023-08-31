@@ -3,6 +3,7 @@ package com.catalisa.sistemaEstoque.service;
 import com.catalisa.sistemaEstoque.model.Product;
 import com.catalisa.sistemaEstoque.repository.ProductRepository;
 import com.catalisa.sistemaEstoque.service.exceptions.ObjectNotFoundException;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +11,9 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class Impl implements ProductService {
+public class ProductServiceImpl implements ProductService {
+    @Autowired
+    private ModelMapper mapper;
     @Autowired
     private ProductRepository repository;
     @Override
