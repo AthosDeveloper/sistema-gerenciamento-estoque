@@ -22,7 +22,7 @@ import java.util.Optional;
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 public class ProductServiceImplTest {
@@ -155,6 +155,27 @@ assertEquals(Product.class, responce.getClass());
 
     assertEquals(QUANTITY, responce.getQuantity());
 
+}
+void returnSuccess_whenDelet(){
+    when(repository.findById(anyLong()))
+            .thenReturn(optionalProduct);
+            doNothing().when(repository).deleteById(anyLong());
+            service.delete(ID);
+            verify(repository, times(1)).deleteById(anyLong());
+
+}
+@Test
+void  returnObjectNotFoundException_whenDelet(){
+when(repository.findById(anyLong()))
+        .thenThrow(new ObjectNotFoundException(PRODUTO_NAO_ENCONTRADO));
+try {
+    service.delete(ID);
+} catch (Exception ex){
+    assertEquals(ObjectNotFoundException.class, ex.getClass());
+    assertEquals(PRODUTO_NAO_ENCONTRADO, ex.getMessage());
+
+
+}
 }
 private  void startProduct(){
 product = new Product(ID, NAME, DESCRIPTION, PRICE, QUANTITY);
