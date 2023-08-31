@@ -90,7 +90,18 @@ assertEquals(HttpStatus.OK, responce.getStatusCode());
     assertEquals(PRICE, responce.getBody().get(INDEX).getPrice());
 assertEquals(QUANTITY, responce.getBody().get(INDEX).getQuantity());
 }
+@Test
+void  returnCreated_whenCreate(){
+when(service.create(any()))
+        .thenReturn(product);
+ResponseEntity<ProductDTO> responce = service.create(productDTO);
+assertEquals(ResponseEntity.class, responce.getClass());
+assertEquals(HttpStatus.CREATED, responce.getStatusCode());
+assertNotNull(responce.getHeaders().get("Location"));
+}
+
     private  void startProduct(){
+
         product = new Product(ID, NAME, DESCRIPTION, PRICE, QUANTITY);
         productDTO = new ProductDTO(ID, NAME, DESCRIPTION, PRICE, QUANTITY);
         dto2 = new ProductDTO2(NAME, DESCRIPTION, PRICE, QUANTITY);
