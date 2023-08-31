@@ -12,25 +12,18 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.math.BigDecimal;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.modelmapper.ModelMapper;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest
 public class ProductControllerTest {
@@ -75,6 +68,27 @@ assertEquals(ResponseEntity.class, responce.getClass());
 
 
 
+}
+@Test
+void returnAListOfDTO_whenFindAll(){
+when(service.findAll())
+        .thenReturn(List.of(product));
+when(any(), any())
+        .thenReturn(dto2);
+ResponseEntity<List<ProductDTO2>> responce = service.findAll();
+assertNotNull(responce);
+assertNotNull(responce.getBody());
+assertEquals(HttpStatus.OK, responce.getStatusCode());
+    assertEquals(ResponseEntity.class, responce.getClass());
+
+    assertEquals(ArrayList.class, responce.getBody().getClass());
+
+    assertEquals(ProductDTO.class, responce.getBody().get(INDEX).getClass());
+    assertEquals(NAME, responce.getBody().get(INDEX).getName());
+
+    assertEquals(DESCRIPTION, responce.getBody().get(INDEX).getDescription());
+    assertEquals(PRICE, responce.getBody().get(INDEX).getPrice());
+assertEquals(QUANTITY, responce.getBody().get(INDEX).getQuantity());
 }
     private  void startProduct(){
         product = new Product(ID, NAME, DESCRIPTION, PRICE, QUANTITY);
