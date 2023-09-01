@@ -27,7 +27,7 @@ public class ProductController {
     private ModelMapper mapper;
     @GetMapping
     public ResponseEntity<List<ProductDTO2>> findAll(){
-        List<Product> products = service.findAll();
+
         return ResponseEntity.ok().body(service.findAll().stream()
                 .map(product -> mapper.map(product, ProductDTO2.class))
                 .collect(Collectors.toList()));

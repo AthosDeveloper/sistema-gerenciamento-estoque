@@ -33,6 +33,7 @@ private static final String NAME = "computador";
 private  static  final  String DESCRIPTION = "computador de mesa";
 private  static  final BigDecimal PRICE = new BigDecimal("4893.3512");
 private  static  final  Integer QUANTITY = 2;
+
 private  static  final String PRODUTO_NAO_ENCONTRADO = "produto não encontrado";
 private static final String NOME_DO_PRODUTO_JA_CADASTRADO_NO_SISTEMA = "nome do produto já cadastrado no sistema";
 @InjectMocks
@@ -91,7 +92,7 @@ assertEquals(ObjectNotFoundException.class, ex.getClass());
 }
 @Test
 public void returnAListOfProducts_whenFindAll(){
-    //quando o repositório buscar todos os produtos por id, me retorna uma lista de produtos
+    //quando o repositório buscar todos os produtos, me retorna uma lista de produtos
 
     when(repository.findAll())
         .thenReturn(List.of(product));

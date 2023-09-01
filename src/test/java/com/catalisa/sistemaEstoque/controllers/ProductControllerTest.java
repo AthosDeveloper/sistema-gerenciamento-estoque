@@ -74,7 +74,7 @@ assertEquals(ResponseEntity.class, responce.getClass());
 void returnAListOfDTO_whenFindAll(){
 when(service.findAll())
         .thenReturn(List.of(product));
-when(any(), any())
+when(mapper.map(any(), any()))
         .thenReturn(dto2);
 ResponseEntity<List<ProductDTO2>> responce = controller.findAll();
 assertNotNull(responce);
