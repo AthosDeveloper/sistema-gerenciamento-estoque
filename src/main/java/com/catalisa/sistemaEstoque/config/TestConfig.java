@@ -18,7 +18,7 @@ public class TestConfig {
     @Bean
     public  void startDB(){
        Product product1 = new Product(null, "playstation4", "jogue em seu console", new BigDecimal("3.546"), 1);
-   Product product2 = new Product(null, "computador", "um computador de qualidade de intelcore i 9", new BigDecimal("6.546.352"), 1);
+   Product product2 = new Product(null, "computador", "um computador de qualidade de intelcore i 9", new BigDecimal("6.546"), 3);
    repository.saveAll(List.of(product1, product2));
     }
 }
