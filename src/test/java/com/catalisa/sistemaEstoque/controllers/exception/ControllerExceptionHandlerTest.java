@@ -35,15 +35,26 @@ private ControllerExceptionHandler controllerException;
 void  returnAResponceEntity_whenObjectNotFound(){
     ResponseEntity<StandardError> response = controllerException
             .objectNotFound(new ObjectNotFoundException(PRODUTO_NAO_ENCONTRADO), new MockHttpServletRequest());
+    //estou testando o método objectNotFound que criei na classe controllerException handler
+    //aqui eu testo se a exceção existe
 assertNotNull(response);
+//em seguida testo se essa exceção existe no corpo da requisição
 assertNotNull(response.getBody());
 
+//aqui testo se de fato o statos code a ser lançado é o HTTP NotFound
 assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+//aqui verifico se a classe é de fato a responceEntity
 assertEquals(ResponseEntity.class, response.getClass());
+//aqui verifico se a classe responsável pelas mensagens de erro é a responsável por passar as mensagens de erro no corpo da requisição
     assertEquals(StandardError.class, response.getBody().getClass());
+    //agora quero testar se essas mensagens de erro são de fato as mesmas.
+
     assertEquals(PRODUTO_NAO_ENCONTRADO, response.getBody().getError());
+    //quero saber se o statos passado no corpo é realmente o 404
     assertEquals(404, response.getBody().getStatus());
+    //quero garantir que o caminho passado no corpo seja diferente do que passei
 assertNotEquals("/product/2", response.getBody().getPath());
+//quero verificar que o horário de agora não seja igual ao passado no corpo da requisição
 assertNotEquals(LocalDateTime.now(), response.getBody().getTimestamp());
 
 
