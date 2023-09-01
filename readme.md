@@ -7,8 +7,9 @@ http://localhost:8081/swagger-ui/index.html
 #lógica de construção do projeto 
 #utilizei um test profile, pois esse foi o principal objetivo desse módulo 
 #usei uma classe de configuração para cadastrar dados no sistema sem ter que realizar comandos sql 
-
-#usei uma configuração mapper utilizando um método que retorna um novo mapper. A intenção é facilitar a transferência do DTO para a classe de entidade e vice versa. Ou seja, não precisarei criar códigos para realizar a lógica do DTO para cada método. 
+#usei dois DTOs, um para buscar os produtos sem id e o outro com id. Minha lógica é que eu não preciso do id para listar, apenas preciso dos atributos principais 
+#usei uma configuração mapper utilizando um método que retorna um novo mapper. A intenção é facilitar a transferência do DTO para a classe de entidade e vice versa.
+# Ou seja, não precisarei criar códigos para realizar a lógica do DTO para cada método. 
 #usei uma arquitetura mais desacoplada, utilizando o service como interface e implementando os métodos na classe serviceImpl 
 #testes: 
 #testei a classe controller, service e as exceções.
